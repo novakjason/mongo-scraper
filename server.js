@@ -28,6 +28,9 @@ app.engine(
 );
 app.set("view engine", "handlebars");
 
+// routes
+require("./config/routes")(router);
+
 // router middleware
 app.use(router);
 
