@@ -1,11 +1,8 @@
-$(".scrape-new").on("click", function () {
-    // scrape for data
-    $.get("/api/scrape");
-});
+scrapeArticles = () => $.get("/api/scrape");
 
-$(".display-articles").on("click", function () {
-    // grab the articles as a json
-    $.getJSON("/articles", function (data) {
+displayArticles = () => {
+    // grab the articles as json
+    $.getJSON("/api/articles", function (data) {
 
         for (var i = 0; i < data.length; i++) {
             // display each article as a bootstrap card
@@ -16,4 +13,16 @@ $(".display-articles").on("click", function () {
                 data[i].link + "' class='btn btn-primary' target='_blank'>Article</a></div></div>");
         }
     });
-});
+}
+
+clearArticles = () => {
+    // ajax request to clear database of all articles
+    $.get("/api/clear");
+    // removing articles from DOM
+    $(".article-container").empty();
+}
+
+scrapeThenDisplay = () => scrapeArticles().then(displayArticles);
+
+$(".scrape-new").on("click", scrapeThenDisplay);
+$(".clear-articles").on("click", clearArticles);
