@@ -7,21 +7,19 @@
     <div class="navbar-nav">
       <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
       <a class="nav-item nav-link" href="/saved">Saved Articles</a>
-      <a class="nav-item nav-link btn btn-danger">SCRAPE NEW ARTICLES!</a>
+      <a class="nav-item nav-link btn btn-danger scrape-new" href="/api/scrape">SCRAPE NEW ARTICLES!</a>
     </div>
   </div>
 </nav>
 
 <div class="jumbotron text-center">
-    <div class="overlay"></div>
-    <div class="background-image"></div>
     <div class="caption">
         <h1>Mongo Scraper</h1>
         <p>New York Times Edition</p>
     </div>
 </div>
 
-<div class="container-fluid"></div>
+<div class="container-fluid article-container"></div>
 
 <footer class="footer">
     <div class="container text-center">
@@ -38,4 +36,4 @@
 <!-- bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
     integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous"></script>
-<script src="../public/assets/javascript/index.js"></script>
+<script src="/assets/javascript/index.js"></script>
