@@ -9,7 +9,7 @@ module.exports = function (app) {
         axios.get("https://www.nytimes.com/section/movies").then(function (response) {
 
             const $ = cheerio.load(response.data);
-            
+
             const articles = [];
 
             $("#stream-panel").find("a").each(function (i, element) {
@@ -38,8 +38,22 @@ module.exports = function (app) {
             });
 
             res.json(articles);
-            
+
         });
+    });
+
+    // route for getting all Articles from the db
+    app.get("/articles", function (req, res) {
+        // grab every document in the Articles collection
+        db.Article.find({})
+            .then(function (dbArticle) {
+                // if we were able to successfully find Articles, send them back to the client
+                res.json(dbArticle);
+            })
+            .catch(function (err) {
+                // if an error occurred, send it to the client
+                res.json(err);
+            });
     });
 
 };
