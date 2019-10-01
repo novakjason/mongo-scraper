@@ -1,6 +1,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 const db = require("../models");
+const articlesController = require("../controllers/articles");
 
 module.exports = function (app) {
 
@@ -34,26 +35,20 @@ module.exports = function (app) {
                         // if an error occurred, log it
                         console.log(err);
                     });
-
             });
-
             res.json(articles);
-
         });
     });
 
-    // route for getting all Articles from the db
-    app.get("/articles", function (req, res) {
-        // grab every document in the Articles collection
-        db.Article.find({})
-            .then(function (dbArticle) {
-                // if we were able to successfully find Articles, send them back to the client
-                res.json(dbArticle);
-            })
-            .catch(function (err) {
-                // if an error occurred, send it to the client
-                res.json(err);
-            });
+    // route for getting all Articles from the database
+    app.get("/api/articles", function (req, res) {
+        // using articles controller to grab every document in the Articles collection
+        articlesController.fetch();
+
     });
 
+    // route for deleting all Articles from the database
+    app.get("/api/clear", function (req, res) {
+        articlesController.delete();
+    });
 };
