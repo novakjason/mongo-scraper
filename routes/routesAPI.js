@@ -1,5 +1,6 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
+const db = require("../models");
 
 module.exports = function (app) {
 
@@ -8,11 +9,11 @@ module.exports = function (app) {
         axios.get("https://www.nytimes.com/section/movies").then(function (response) {
 
             const $ = cheerio.load(response.data);
-            console.log("hello");
+            
             const articles = [];
 
             $("#stream-panel").find("a").each(function (i, element) {
-                if(i > 8) {
+                if (i > 8) {
                     return;
                 }
 
@@ -22,12 +23,22 @@ module.exports = function (app) {
                 article.headline = $(element).children("h2").text().trim();
                 article.summary = $(element).children("p").text().trim();
                 articles.push(article);
-                console.log(article);
-            });
-            
-            console.log(articles);
-            res.json(articles);
 
+                // create a new Article using the `article` object built from scraping
+                db.Article.create(article)
+                    .then(function (dbArticle) {
+                        // view the added result in the console
+                        console.log(dbArticle);
+                    })
+                    .catch(function (err) {
+                        // if an error occurred, log it
+                        console.log(err);
+                    });
+
+            });
+
+            res.json(articles);
+            
         });
     });
 
