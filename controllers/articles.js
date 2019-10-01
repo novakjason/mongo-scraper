@@ -10,7 +10,7 @@ module.exports = {
             Article.collection.insertMany(articles, { ordered: false }, (err, docs) => callback(err, docs))
         });
     },
-    delete: (query, callback) => Article.remove(query, callback),
+    delete: (res) => Article.deleteMany({}).catch(err => res.json(err)),
     get: (query, callback) => Article.find(query).sort({ _id: -1 }).exec((err, doc) => callback(doc)),
     update: (query, callback) => Article.update({ _id: query._id }, { $set: query }, {}, callback)
 };
