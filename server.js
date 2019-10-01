@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 const router = express.Router();
 
 // express middleware for data parsing
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // serving static files
@@ -29,7 +29,8 @@ app.engine(
 app.set("view engine", "handlebars");
 
 // routes
-require("./config/routes")(router);
+require("./routes/routesHTML")(app);
+require("./routes/routesAPI")(app);
 
 // router middleware
 app.use(router);
