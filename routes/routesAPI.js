@@ -42,8 +42,17 @@ module.exports = function (app) {
 
     // route for getting all Articles from the database
     app.get("/api/articles", function (req, res) {
-        // using articles controller to grab every document in the Articles collection
-        articlesController.fetch();
+
+        // grab every document in the Articles collection
+        db.Article.find({})
+            .then(function (dbArticle) {
+                // if we were able to successfully find Articles, send them back to the client
+                res.json(dbArticle);
+            })
+            .catch(function (err) {
+                // if an error occurred, send it to the client
+                res.json(err);
+            });
 
     });
 

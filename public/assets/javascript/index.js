@@ -22,7 +22,11 @@ clearArticles = () => {
     $(".article-container").empty();
 }
 
-scrapeThenDisplay = () => scrapeArticles().then(displayArticles);
+scrapeThenDisplay = () => {
+    $(".article-container").empty();
+    scrapeArticles().then(displayArticles);
+}
 
 $(".scrape-new").on("click", scrapeThenDisplay);
+// $(".display-articles").on("click", displayArticles);
 $(".clear-articles").on("click", clearArticles);
