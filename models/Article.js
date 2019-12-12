@@ -2,19 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ArticleSchema = new Schema({
-    headline: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    link: {
-        type: String,
-        required: false
-    },
-    summary: {
-        type: String,
-        required: true
-    },
     saved: {
         type: Boolean,
         default: false
@@ -22,7 +9,24 @@ const ArticleSchema = new Schema({
     notes: [{
         type: Schema.Types.ObjectId,
         ref: "Note"
-    }]
+    }],
+    link: {
+        type: String,
+        required: false,
+        unique: true
+    },
+    headline: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    summary: {
+        type: String,
+        required: true,
+        unique: true
+    }
+}, {
+    timestamps: true
 });
 
 const Article = mongoose.model("Article", ArticleSchema);
