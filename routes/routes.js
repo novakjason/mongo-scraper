@@ -2,7 +2,11 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const db = require("../models");
 
-module.exports = function (app) {
+module.exports = app => {
+
+    app.get("/", (req, res) => res.render("home"));
+    
+    app.get("/saved", (req, res) => res.render("saved"));
 
     app.get("/api/scrape", function (req, res) {
 
