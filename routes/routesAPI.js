@@ -39,11 +39,13 @@ module.exports = function (app) {
         });
     });
 
-    // route for getting all Articles from the database
+    // route for getting all unsaved Articles from the database
     app.get("/api/articles", function (req, res) {
 
         // grab every document in the Articles collection
-        db.Article.find({})
+        db.Article.find({ saved: false })
+            // sorting by most recently scraped articles
+            .sort("createdAt")
             .then(function (dbArticle) {
                 // if we were able to successfully find Articles, send them back to the client
                 res.json(dbArticle);
@@ -53,6 +55,19 @@ module.exports = function (app) {
                 res.json(err);
             });
 
+    });
+
+    // route to get all saved articles from the database
+    app.get("/api/articles/saved", function (req, res) {
+        db.Article.find({ saved: true })
+            // sorting by most recently saved article
+            .sort("updatedAt")
+            .then(function (dbArticle) {
+                res.json(dbArticle);
+            })
+            .catch(function (err) {
+                res.json(err);
+            });
     });
 
     // route to save article by id
@@ -75,17 +90,6 @@ module.exports = function (app) {
           .catch(function(err) {
               res.json(err);
           });
-    });
-
-    // route to get all saved articles from the database
-    app.get("/api/saved", function (req, res) {
-        db.Article.find({ saved: true })
-            .then(function (dbArticle) {
-                res.json(dbArticle);
-            })
-            .catch(function (err) {
-                res.json(err);
-            });
     });
     
 };
