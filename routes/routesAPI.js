@@ -1,7 +1,6 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 const db = require("../models");
-const articlesController = require("../controllers/articles");
 
 module.exports = function (app) {
 
@@ -56,8 +55,37 @@ module.exports = function (app) {
 
     });
 
-    // route for deleting all Articles from the database
-    app.get("/api/clear", function (req, res) {
-        articlesController.delete();
+    // route to save article by id
+    app.post("/api/save/:id", function (req, res) {
+        db.Article.findByIdAndUpdate(req.params.id, { saved: true })
+          .then(function(dbArticle) {
+              res.json(dbArticle);
+          })
+          .catch(function(err) {
+              res.json(err);
+          });
     });
+
+    // route to unsave article by id
+    app.post("/api/unsave/:id", function (req, res) {
+        db.Article.findByIdAndUpdate(req.params.id, { saved: false })
+          .then(function(dbArticle) {
+              res.json(dbArticle);
+          })
+          .catch(function(err) {
+              res.json(err);
+          });
+    });
+
+    // route to get all saved articles from the database
+    app.get("/api/saved", function (req, res) {
+        db.Article.find({ saved: true })
+            .then(function (dbArticle) {
+                res.json(dbArticle);
+            })
+            .catch(function (err) {
+                res.json(err);
+            });
+    });
+    
 };
